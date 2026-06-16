@@ -1,0 +1,20 @@
+body {
+    margin-top: 20px;
+}
+
+.sidebar-nav {
+    padding: 0;
+    list-style: none;
+}
+
+.link-to-page {
+    float: right;
+}
+
+.date-size {
+    font-size: 10px;
+}
+
+.task-container * {
+    margin-bottom: 3px;
+}

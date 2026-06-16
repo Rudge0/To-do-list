@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 style="margin: 0 0 30px 0">
+        To-do list
+        <a href="{% url 'list:task-create' %}" class="link-to-page btn btn-primary">Create task</a>
+    </h1>
+
+    <hr>
+    {% if task_list %}
+        {% for task in task_list.all %}
+            <div class="task-container">
+
+                <h3>
+                    {{ task.name }}
+
+                    <form action="{% url 'list:change-task-status' task.id %}" type="POST" class="link-to-page">
+                        {% csrf_token %}
+                        {% if task.done %}
+                            <input class="btn btn-secondary" type="submit" value="Undo"></input>
+                        {% else %}
+                            <input class="btn btn-success" type="submit" value="Complete"></input>
+                        {% endif %}
+                    </form>
+
+                </h3>
+
+                <p>{{ task.description }}</p>
+                <p class="date-size">Created at: {{ task.created_at }}</p>
+                <p class="date-size">Deadline: {{ task.deadline }}</p>
+
+                <p>
+                    Tags: {% for tag in task.tags.all %}{{ tag }} {% endfor %}
+                    <a href="{% url 'list:task-update' task.id %}">Update</a>
+                    <a href="{% url 'list:task-delete' task.id %}">Delete</a>
+                </p>
+
+            </div>
+            <hr>
+
+        {% endfor %}
+
+    {% else %}
+        <h3>There are no tasks</h3>
+    {% endif %}
+{% endblock %}
