@@ -1,29 +1,23 @@
-from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views import generic
-from .models import Task, Tag
+from django.views import View, generic
+
+from list.models import Task, Tag
 
 
-def change_task_status(request: HttpRequest, pk: int) -> HttpResponse:
-    task = get_object_or_404(Task, id=pk)
-    task.change_status()
-    print("Here")
-    return redirect("list:task-list")
+class TaskStatusUpdateView(View):
+    http_method_names = ["post"]
+    success_url = reverse_lazy("list:task-list")
 
-
-def add_task_tag(request: HttpRequest, pk: int) -> HttpResponse:
-    task = get_object_or_404(Task, pk)
-    return redirect("list:task-list")
-
-
-def delete_task_tag(request: HttpRequest, pk: int) -> HttpResponse:
-    task = get_object_or_404(Task, pk)
-    return redirect("list:task-list")
+    def post(self, request, *args, **kwargs):
+        task = get_object_or_404(Task, pk=kwargs["pk"])
+        task.change_status()
+        return redirect(self.success_url)
 
 
 class TaskListView(generic.ListView):
     model = Task
+    ordering = ("id",)
     paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -51,7 +45,9 @@ class TaskUpdateView(generic.UpdateView):
 
 class TagListView(generic.ListView):
     model = Tag
+    ordering = ("id",)
     paginate_by = 10
+
 
 class TagDeleteView(generic.DeleteView):
     model = Tag

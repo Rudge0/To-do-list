@@ -1,19 +1,14 @@
 from django.urls import path
-from .views import (
-
+from list.views import (
     TagListView,
     TagCreateView,
     TagUpdateView,
     TagDeleteView,
-
     TaskListView,
     TaskCreateView,
     TaskDeleteView,
     TaskUpdateView,
-
-    change_task_status,
-    add_task_tag,
-    delete_task_tag
+    TaskStatusUpdateView,
 )
 
 urlpatterns = [
@@ -29,10 +24,11 @@ urlpatterns = [
     path("tasks/<int:pk>/delete", TaskDeleteView.as_view(), name="task-delete"),
     path("tasks/create", TaskCreateView.as_view(), name="task-create"),
 
-    path("tasks/<int:pk>/change-status/", change_task_status, name="change-task-status"),
-    path("tasks/<int:pk>/add-tag/", add_task_tag, name="add-task-status"),
-    path("tasks/<int:pk>/delete-tag/", delete_task_tag, name="delete-task-status"),
-
+    path(
+        "tasks/<int:pk>/change-status/",
+        TaskStatusUpdateView.as_view(),
+        name="change-task-status",
+    ),
 ]
 
 

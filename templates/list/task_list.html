@@ -14,12 +14,12 @@
                 <h3>
                     {{ task.name }}
 
-                    <form action="{% url 'list:change-task-status' task.id %}" type="POST" class="link-to-page">
+                    <form action="{% url 'list:change-task-status' task.id %}" method="post" class="link-to-page">
                         {% csrf_token %}
                         {% if task.done %}
-                            <input class="btn btn-secondary" type="submit" value="Undo"></input>
+                            <button class="btn btn-secondary" type="submit">Undo</button>
                         {% else %}
-                            <input class="btn btn-success" type="submit" value="Complete"></input>
+                            <button class="btn btn-success" type="submit">Complete</button>
                         {% endif %}
                     </form>
 

@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Tag, Task
+
+from list.models import Tag, Task
 
 
 @admin.register(Tag)
@@ -9,7 +10,7 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ("name", "done","get_tags")
+    list_display = ("name", "done", "get_tags")
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
